@@ -6,6 +6,7 @@ import BookDetail from './pages/books/BookDetail';
 import BookEdit from './pages/books/BookEdit';
 import BookIndex from './pages/books/BookIndex';
 import BookSearch from './pages/books/BookSearch';
+import TenArr from './pages/books/TenArr';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               </Route>
           </Route>
       </Routes>
+      {/* <TenArr /> */}
     </>
   );
 }
