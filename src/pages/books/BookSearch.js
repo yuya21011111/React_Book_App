@@ -1,7 +1,8 @@
 import { useRef, useState } from "react"
-import { Button, Container, Fab, TextField, Typography, Box, } from "@mui/material"
+import { Button, Container, Fab, TextField, Typography, Box, Grid, CardMedia, CardContent, CardActions, Card, } from "@mui/material"
 import { Link } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import AddIcon from '@mui/icons-material/Add'
 
 const BookSearch = () => {
     const keyword = useRef('')
@@ -25,7 +26,7 @@ const BookSearch = () => {
             const description = book.volumeInfo.description
             newList.push({
                 title: title ? title : 'タイトルはありません。',
-                Image: img ? img.thumbnail : 'images/no_image.jpeg',
+                image: img ? img.thumbnail : 'images/no_image.jpeg',
                 description: description ? description.slice(0, 40) : '無し'
             })
             console.log(newList)
@@ -68,6 +69,40 @@ const BookSearch = () => {
                       </Button>
                 </Box>
             </Box>
+        </Container>
+        <Container component="section" maxWidth="lg">
+            <Grid container spacing={4}>
+                {searchResult.map((card, index) =>(
+                    <Grid item key={index} xs={12} sm={6} md={4}>
+                        <Card sx={{ height: '100%' }}>
+                            <Grid container>
+                                <Grid item sm={4}>
+                                    <CardMedia
+                                    component="img"
+                                    image={card.image}
+                                    alt={card.title}>
+                                    </CardMedia>
+                                </Grid>
+                                <Grid item sm={8}>
+                                    <CardContent>
+                                        <Typography sx={{fontSize: '16px' }}>
+                                            {card.title}
+                                            <Typography sx={{fontSize: '14px', md: 1.5 }}
+                                            color="text.secondary"
+                                            >{card.description}</Typography>
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Fab color="primary">
+                                            <AddIcon />
+                                        </Fab>
+                                    </CardActions>
+                                </Grid>
+                            </Grid>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
         </Container>
     </>)
 }
