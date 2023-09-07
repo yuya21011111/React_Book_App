@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import AddIcon from '@mui/icons-material/Add'
 
-const BookSearch = () => {
+const BookSearch = ({books, setBooks}) => {
     const keyword = useRef('')
     const [searchResult, setSearchResult] = useState([])
     const search = async (keyword, e) => {
