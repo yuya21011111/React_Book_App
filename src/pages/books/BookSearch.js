@@ -1,12 +1,13 @@
 import { useRef, useState } from "react"
 import { Button, Container, Fab, TextField, Typography, Box, Grid, CardMedia, CardContent, CardActions, Card, } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import AddIcon from '@mui/icons-material/Add'
 
 const BookSearch = ({books, setBooks}) => {
     const keyword = useRef('')
     const [searchResult, setSearchResult] = useState([])
+    const navigate = useNavigate()
     const search = async (keyword, e) => {
         e.preventDefault()
         const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
@@ -32,6 +33,22 @@ const BookSearch = ({books, setBooks}) => {
             console.log(newList)
             setSearchResult(newList)
         })
+    
+    }
+
+    const addBook = card => {
+        console.log(card)
+        const newId = books.length !== 0 ? books.slice(-1)[0].id + 1 : 1
+        const newBook = {
+            id: newId,
+            title: card.title,
+            description: card.description,
+            image: card.image,
+            readDate: '',
+            memo: ''
+        }
+        setBooks([...books, newBook])
+         navigate(`/edit/${newId}`)
     }
     return (<>
         <Container component="section" maxWidth="xl">
@@ -93,7 +110,7 @@ const BookSearch = ({books, setBooks}) => {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Fab color="primary">
+                                        <Fab color="primary" onClick={() => addBook(card)}>
                                             <AddIcon />
                                         </Fab>
                                     </CardActions>
