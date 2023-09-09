@@ -11,20 +11,12 @@ import Etarget from './pages/books/Etarget';
 import { useState, useEffect } from 'react';
 
 function App() {
-
-  const [books, setBooks] = useState([])
   const STORAGE_KEY = 'book'
-
-  // localStorageのデータをuseStateに持たせる
-  useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY)) {
-      try {
-        setBooks(JSON.parse(localStorage.getItem(STORAGE_KEY)))
-      } catch (e) {
-        console.log(e)
-      }
-    }
-  }, [])
+  const [books, setBooks] = useState(() => {
+    const save = localStorage.getItem(STORAGE_KEY)
+    const initialValue = JSON.parse(save)
+    return initialValue || []
+  })
 
   // 更新されたらlocalStorageに保存
   useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(books)) }, [books])
