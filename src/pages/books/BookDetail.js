@@ -6,13 +6,31 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from "@mui/x-date-pickers"
 import ja from "date-fns/locale/ja"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-const BookDetail = ({ books }) => {
-    const [value, setValue] = useState(null)
+const BookDetail = ({ books, setBooks }) => {
     const params = useParams()
+    const navigate = useNavigate()
     const book = books.find(book => {
         return book.id === parseInt(params.id, 10)
     })
+    const [value, setValue] = useState(book.readDate)
+    const [memo, setMemo] = useState(book.memo)
+
+    const updateBookInfo = bookId => {
+        const newList = books.filter( book => {
+            if(book.id === bookId) {
+                book.readDate = value
+                book.memo = memo
+                return book
+            } else {
+                return book
+            }
+        } )
+        setBooks(newList)
+        navigate('/')
+
+    }
 
     return (<>
         <Container component="section" maxWidth="md"
@@ -48,7 +66,9 @@ const BookDetail = ({ books }) => {
                                 <TextField
                                     multiline
                                     fullWidth
-                                    rows={8} />
+                                    rows={8}
+                                    value={memo}
+                                    onChange={e => setMemo(e.target.value)}/>
                             </Box>
                         </CardContent>
                         <CardActions>
@@ -58,7 +78,8 @@ const BookDetail = ({ books }) => {
                                         color="secondary" variant="contained">一覧に戻る</Button>
                                 </Grid>
                                 <Grid item sm={6}>
-                                    <Button color="info" variant="contained">保存する</Button>
+                                    <Button color="info" variant="contained"
+                                    onClick={() => updateBookInfo(book.id)}>保存する</Button>
                                 </Grid>
                             </Grid>
                         </CardActions>
