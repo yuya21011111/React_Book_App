@@ -7,6 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers"
 import ja from "date-fns/locale/ja"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { format } from "date-fns"
 
 const BookDetail = ({ books, setBooks }) => {
     const params = useParams()
@@ -16,6 +17,10 @@ const BookDetail = ({ books, setBooks }) => {
     })
     const [value, setValue] = useState(book.readDate)
     const [memo, setMemo] = useState(book.memo)
+
+    const setNewValue = newValue => {
+        setValue(format(newValue, 'yyyy/MM/dd'))
+    }
 
     const updateBookInfo = bookId => {
         const newList = books.filter( book => {
@@ -55,7 +60,7 @@ const BookDetail = ({ books, setBooks }) => {
                                     <DatePicker label="日付" value={value}
                                     maxDate={new Date()}
                                     onChange={(newValue) => {
-                                        setValue(newValue)
+                                        setNewValue(newValue)
                                     }}
                                     renderInput={(params) => <TextField {...params} /> }
                                      />
