@@ -7,19 +7,12 @@ import BookEdit from './pages/books/BookEdit';
 import BookIndex from './pages/books/BookIndex';
 import BookSearch from './pages/books/BookSearch';
 import TenArr from './pages/books/TenArr';
-import Etarget from './pages/books/Etarget';
-import { useState, useEffect } from 'react';
+import { usePersist } from './hooks/usePersist';
 
 function App() {
   const STORAGE_KEY = 'book'
-  const [books, setBooks] = useState(() => {
-    const save = localStorage.getItem(STORAGE_KEY)
-    const initialValue = JSON.parse(save)
-    return initialValue || []
-  })
-
-  // 更新されたらlocalStorageに保存
-  useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(books)) }, [books])
+  const [books, setBooks] = usePersist(STORAGE_KEY)
+  
   return (
     <>
       <Routes>
